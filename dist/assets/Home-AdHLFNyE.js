@@ -1,0 +1,1 @@
+import{A as e,j as t,B as r,g as a,T as o}from"./index-DXIXWoHh.js";const s=()=>t.jsx(r,{bgcolor:a,height:"100%",display:"flex",justifyContent:"center",children:t.jsx(o,{p:"1rem",variant:"h5",textAlign:"center",children:"Select a friend to chat"})}),i=e(s);export{i as default};
