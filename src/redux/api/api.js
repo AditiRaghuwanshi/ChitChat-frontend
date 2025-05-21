@@ -1,11 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { server } from "../../constants/configure";
 
+console.log("API base URL:", server);
+
 const api = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${server}/api/v1/`
-    }),
+        baseUrl: `${server}/api/v1/`,
+         prepareHeaders: (headers) => {
+      console.log("Preparing headers:", headers);
+      return headers;  // must return headers for the request to work
+    },
+}),
     tagTypes: ["Chat", "User", "Message"],
     endpoints: (builder) => ({
         
