@@ -1,14 +1,12 @@
-import AdminLayout from "../../layout/AdminLayout"
-import Table from "../../components/shared/Table"
-import { useEffect, useState } from "react";
-import { Avatar } from "@mui/material";
-import { dashboardData } from "../../constants/sampleData";
-import { useParams } from "react-router-dom";
-import {transformImage} from "../../lib/features"
 import { useFetchData } from "6pp";
-import { useErrors } from "../../hooks/hook";
+import { Avatar, Skeleton } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Table from "../../components/shared/Table";
 import { server } from "../../constants/configure";
-
+import { useErrors } from "../../hooks/hook";
+import AdminLayout from "../../layout/AdminLayout";
+import { transformImage } from "../../lib/features";
 
 
 
