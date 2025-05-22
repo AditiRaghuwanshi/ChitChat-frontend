@@ -1,57 +1,65 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import { Avatar, Stack, Typography } from "@mui/material"
 // import {
 //   Face as FaceIcon,
-//   AlternateEmail as usernameIcon,
-//   CalendarMonth as CalenderIcon
-
+//   AlternateEmail as AlternateEmailIcon,
+//   CalendarMonth as CalendarIcon
 // } from "@mui/icons-material"
-// import moment from "moment/moment"
+// import moment from "moment"
 // import { transformImage } from "../../lib/features"
-
 
 // const Profile = ({ user }) => {
 //   return (
 //     <Stack spacing={"1rem"} direction={"column"} alignItems={"center"}>
 //       <Avatar 
-//          src={transformImage(user?.avatar?.url)}
-//       sx={{
-     
-//         width: 80,
-//         height: 80,
-//         objectFit: "contain",
-//         marginBottom: "0.5rem",
-//         border: "5px solid white",
+//         src={transformImage(user?.avatar?.url)}
+//         sx={{
+//           width: 80,
+//           height: 80,
+//           objectFit: "contain",
+//           marginBottom: "0.5rem",
+//           border: "5px solid white",
+//         }} 
+//       />
 
-//       }} />
-//   <ProfileCard text={user?.bio}  heading={"Bio"} />
-//   <ProfileCard text={user?.username} heading={"username"}  Icon={<usernameIcon />} />
-//   <ProfileCard text={user?.namee} heading={"namee"}  Icon={<FaceIcon />} />
-//   <ProfileCard text={moment(user?.createdAt).fromNow()} heading={"Joined"}  Icon={<CalenderIcon />} />
+//       <ProfileCard text={user?.bio} heading={"Bio"} />
+//       <ProfileCard text={user?.username} heading={"Username"} Icon={<AlternateEmailIcon />} />
+//       <ProfileCard text={user?.namee} heading={"Name"} Icon={<FaceIcon />} />
+//       <ProfileCard text={moment(user?.createdAt).fromNow()} heading={"Joined"} Icon={<CalendarIcon />} />
 //     </Stack>
 //   )
 // }
 
-
-// const ProfileCard = ({ text, Icon, heading }) => 
-// <Stack
-//   direction={"row"}
-//   alignItems={"center"}
-//   spacing={"0.8rem"}
-//   color={"white"}
-//   textAlign={"center"}
+// const ProfileCard = ({ text, Icon, heading }) => (
+//   <Stack
+//     direction={"row"}
+//     alignItems={"center"}
+//     spacing={"0.8rem"}
+//     color={"white"}
+//     textAlign={"center"}
 //   >
-//     {Icon && Icon }
+//     {Icon && Icon}
 
 //     <Stack>
 //       <Typography variant="body1">{text}</Typography>
 //       <Typography color={"gray"} variant="caption">{heading}</Typography>
-
 //     </Stack>
-
-
-
-
-// </Stack>
+//   </Stack>
+// )
 
 // export default Profile
 
@@ -60,60 +68,60 @@
 
 
 
-
-
-
-
-
-
-
-
-import { Avatar, Stack, Typography } from "@mui/material"
+import { Avatar, Stack, Typography } from "@mui/material";
 import {
   Face as FaceIcon,
   AlternateEmail as AlternateEmailIcon,
   CalendarMonth as CalendarIcon
-} from "@mui/icons-material"
-import moment from "moment"
-import { transformImage } from "../../lib/features"
+} from "@mui/icons-material";
+import moment from "moment";
+import { transformImage } from "../../lib/features";
+import { dustyPink } from "../../constants/color";
+
 
 const Profile = ({ user }) => {
+  if (!user) return <Typography color="Purple">No user data available</Typography>;
+
+  console.log("User Data:", user); // 👈 check the data here
+
   return (
-    <Stack spacing={"1rem"} direction={"column"} alignItems={"center"}>
-      <Avatar 
+    <Stack spacing="1rem" direction="column" alignItems="center">
+      <Avatar
         src={transformImage(user?.avatar?.url)}
         sx={{
           width: 80,
           height: 80,
           objectFit: "contain",
           marginBottom: "0.5rem",
-          border: "5px solid white",
-        }} 
+          border: "5px solid white"
+        }}
       />
 
-      <ProfileCard text={user?.bio} heading={"Bio"} />
-      <ProfileCard text={user?.username} heading={"Username"} Icon={<AlternateEmailIcon />} />
-      <ProfileCard text={user?.namee} heading={"Name"} Icon={<FaceIcon />} />
-      <ProfileCard text={moment(user?.createdAt).fromNow()} heading={"Joined"} Icon={<CalendarIcon />} />
+      <ProfileCard text={user?.bio} heading="Bio" />
+      <ProfileCard text={user?.username} heading="Username" Icon={<AlternateEmailIcon />} />
+      <ProfileCard text={user?.namee} heading="Name" Icon={<FaceIcon />} />
+      <ProfileCard text={moment(user?.createdAt).fromNow()} heading="Joined" Icon={<CalendarIcon />} />
     </Stack>
-  )
-}
+  );
+};
 
 const ProfileCard = ({ text, Icon, heading }) => (
   <Stack
-    direction={"row"}
-    alignItems={"center"}
-    spacing={"0.8rem"}
-    color={"white"}
-    textAlign={"center"}
+    direction="row"
+    alignItems="center"
+    spacing="0.8rem"
+    color="dustyPink"
+    textAlign="center"
   >
     {Icon && Icon}
-
     <Stack>
-      <Typography variant="body1">{text}</Typography>
-      <Typography color={"gray"} variant="caption">{heading}</Typography>
+         
+      <Typography variant="body1">{text || "N/A"}</Typography>
+      <Typography color="Purple" variant="caption">{heading}</Typography>
     </Stack>
   </Stack>
-)
 
-export default Profile
+  
+);
+
+export default Profile;
