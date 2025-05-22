@@ -189,25 +189,34 @@
   
 
 
-import { Drawer, Grid, Skeleton } from "@mui/material";
+import { Box, Button, Drawer, Grid, Skeleton, useMediaQuery, useTheme } from "@mui/material";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import DeleteChatMenu from "../components/dialogs/DeleteChatMenu";
 import Title from "../components/shared/Title";
 import ChatList from "../components/specific/ChatList";
 import Profile from "../components/specific/Profile";
-import Header from "../layout/Header";
-import { useMyChatsQuery } from "../redux/api/api";
-import { useDispatch, useSelector } from "react-redux";
-import { setIsDeleteMenu, setIsMobileMenuFriend, setIsSelectedDeleteChat } from "../redux/reducers/misc";
-import { useErrors, useSocketEvents } from "../hooks/hook";
-import { getSocket } from "../socket";
 import { NEW_MESSAGE_ALERT, NEW_REQUEST, ONLINE_USERS, REFETCH_CHATS } from "../constants/events";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { incrementNotification, setNewMessagesAlert } from "../redux/reducers/chat";
+import { useErrors, useSocketEvents } from "../hooks/hook";
+import Header from "../layout/Header";
 import { getOrSaveFromStorage } from "../lib/features";
-import DeleteChatMenu from "../components/dialogs/DeleteChatMenu";
+import { useMyChatsQuery } from "../redux/api/api";
+import { incrementNotification, setNewMessagesAlert } from "../redux/reducers/chat";
+import { setIsDeleteMenu, setIsMobileMenuFriend, setIsSelectedDeleteChat } from "../redux/reducers/misc";
+import { getSocket } from "../socket";
+import { useIsMobile } from "../hooks/useIsMobile";
+
 
 const Applayout = (WrappedComponent) => {
     const ComponentWithLayout = (props) => {
+      
+      console.log("Width:", window.innerWidth);
+
+
+   const isMobile = useMediaQuery('(max-width:600px)');
+console.log("isMobile:", isMobile);
+  
       const params = useParams();
       const dispatch = useDispatch();
       const chatId = params.chatId;
@@ -216,9 +225,23 @@ const Applayout = (WrappedComponent) => {
       const { isMobileMenuFriend } = useSelector((state) => state.misc);
       const { user } = useSelector((state) => state.auth);
       const { newMessagesAlert } = useSelector((state) => state.chat);
-      const [onlineUsers, setOnlineUsers] = useState([]);
+      const [onlineUsers, setOnlineUsers] = useState([])
+      
+
+
       const navigate = useNavigate();
 
+      // const isMobile = useIsMobile(); // Use the custom hook to determine if the device is mobile
+useEffect(() => {
+  console.log("Width:", window.innerWidth);
+  console.log("isMobile:", isMobile);
+}, [isMobile]);
+
+// const isMobile = useIsMobile();
+
+
+
+      
       const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
       useErrors([{ isError, error }]);
 
@@ -293,7 +316,7 @@ const Applayout = (WrappedComponent) => {
             </Drawer>
           )}
 
-          <Grid container height={"calc(100vh - 4rem)"}>
+          {/* <Grid container height={"calc(100vh - 4rem)"}>
             <Grid
               item
               sm={4}
@@ -331,7 +354,82 @@ const Applayout = (WrappedComponent) => {
             >
               <Profile user={user} />
             </Grid>
-          </Grid>
+          </Grid> */}
+
+
+          <Grid container height="calc(100vh - 4rem)">
+  {isMobile ? (
+    <Grid container direction="column" height="100%" overflow="auto">
+      {/* Sidebar (always visible) */}
+      <Grid item>
+        <ChatList
+          chats={data?.chats}
+          chatId={chatId}
+          handleDeleteChat={handleDeleteChat}
+          newMessagesAlert={newMessagesAlert}
+          onlineUsers={onlineUsers}
+        />
+      </Grid>
+
+      {/* Chat view (always visible) */}
+      <Grid item>
+        <WrappedComponent {...props} chatId={chatId} user={user} />
+      </Grid>
+
+      {/* Profile only visible if no chat is selected */}
+      {!chatId && (
+        <Grid item>
+          <Profile user={user} />
+        </Grid>
+      )}
+    </Grid>
+  ) : (
+    <>
+      {/* Sidebar */}
+      <Grid item sm={4} md={3} height="100%" sx={{ bgcolor: "#f0f0f0" }}>
+        <ChatList
+          chats={data?.chats}
+          chatId={chatId}
+          handleDeleteChat={handleDeleteChat}
+          newMessagesAlert={newMessagesAlert}
+          onlineUsers={onlineUsers}
+        />
+      </Grid>
+
+      {/* Chat View */}
+      <Grid item sm={8} md={5} lg={6} height="100%" sx={{ bgcolor: "#fff" }}>
+        <WrappedComponent {...props} chatId={chatId} user={user} />
+      </Grid>
+
+      {/* Profile */}
+      <Grid
+        item
+        md={4}
+        lg={3}
+        height="100%"
+        sx={{
+          display: { xs: "none", md: "block" },
+          padding: "2rem",
+          bgcolor: "rgba(0,0,0,0.85)",
+        }}
+      >
+        <Profile user={user} />
+      </Grid>
+    </>
+  )}
+</Grid>
+
+
+   
+
+   
+
+
+
+
+
+
+
         </>
       );
     };
@@ -343,6 +441,3 @@ export default Applayout;
 
 
 
-
-
-  
