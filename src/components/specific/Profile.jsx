@@ -93,7 +93,7 @@ const Profile = ({ user }) => {
           height: 80,
           objectFit: "contain",
           marginBottom: "0.5rem",
-          border: "5px solid white"
+          border: "3px solid gray"
         }}
       />
 

@@ -80,7 +80,7 @@
 import { Stack, IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
-import { candypink, gradiant, Purple } from "../../constants/color";
+import { candypink, gradiant } from "../../constants/color";
 import ChatItem from "../shared/ChatItem";
 
 const ChatList = ({
