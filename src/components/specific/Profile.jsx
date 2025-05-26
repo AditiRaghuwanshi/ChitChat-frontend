@@ -82,7 +82,7 @@ import { dustyPink } from "../../constants/color";
 const Profile = ({ user }) => {
   if (!user) return <Typography color="Purple">No user data available</Typography>;
 
-  console.log("User Data:", user); // 👈 check the data here
+ 
 
   return (
     <Stack spacing="1rem" direction="column" alignItems="center">

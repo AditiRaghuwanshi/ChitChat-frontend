@@ -522,6 +522,7 @@ import {
   setIsSelectedDeleteChat,
 } from "../redux/reducers/misc";
 import { getSocket } from "../socket";
+import { gradiant } from "../constants/color";
 
 const Applayout = (WrappedComponent) => {
   const ComponentWithLayout = (props) => {
@@ -541,6 +542,13 @@ const Applayout = (WrappedComponent) => {
 
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [showProfile, setShowProfile] = useState(false);
+
+    useEffect(() => {
+  if (!isMobile && showProfile) {
+    setShowProfile(false);
+  }
+}, [isMobile, showProfile]);
+
 
     const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
     useErrors([{ isError, error }]);
@@ -583,22 +591,39 @@ const Applayout = (WrappedComponent) => {
       navigate("/");
     }, [refetch, navigate]);
 
-    const onlineUsersListener = useCallback((ids) => {
-      setOnlineUsers(ids);
-    }, []);
+    // const onlineUsersListener = useCallback((ids) => {
+    //   setOnlineUsers(ids);
+    // }, []);
 
-    useEffect(() => {
-      socket.on("ONLINE_USERS", onlineUsersListener);
-      return () => {
-        socket.off("ONLINE_USERS", onlineUsersListener);
-      };
-    }, [socket, onlineUsersListener]);
+      const onlineUsersListener = useCallback((data) => {
+        console.log("RAW Online Users from server:", data);  
+         setOnlineUsers(data);
+       }, []);
+
+    // useEffect(() => {
+    //   socket.on("ONLINE_USERS", onlineUsersListener);
+    //   return () => {
+    //     socket.off("ONLINE_USERS", onlineUsersListener);
+    //   };
+    // }, [socket, onlineUsersListener]);
+
+          useEffect(() => {
+        // Handle the ONLINE_USERS event when received from the server
+        socket.on("ONLINE_USERS", (onlineUserIds) => {
+          console.log("RAW Online Users from server:", onlineUserIds);
+          setOnlineUsers(onlineUserIds); // Update the state with online users
+        });
+        return () => {
+          socket.off("ONLINE_USERS");
+        };
+      }, [socket]);
 
     const eventHandlers = {
       [NEW_MESSAGE_ALERT]: newMessageAlertHandler,
       [NEW_REQUEST]: newRequestHandler,
       [REFETCH_CHATS]: refetchListener,
       [ONLINE_USERS]: onlineUsersListener,
+      //  [ONLINE_USERS]: onlineUsersListener,
     };
 
     useSocketEvents(socket, eventHandlers);
@@ -677,7 +702,7 @@ const Applayout = (WrappedComponent) => {
                 sx={{
                   display: { xs: "none", md: "block" },
                   padding: "2rem",
-                  bgcolor: "rgba(224, 114, 114, 0.85)",
+                   background: gradiant,
                 }}
               >
                 <Profile user={user} />

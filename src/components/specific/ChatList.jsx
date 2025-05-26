@@ -80,7 +80,7 @@
 import { Stack, IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
-import { candypink, gradiant } from "../../constants/color";
+import { gradiant } from "../../constants/color";
 import ChatItem from "../shared/ChatItem";
 
 const ChatList = ({
@@ -98,7 +98,7 @@ const ChatList = ({
     <Stack width={w} direction="column" overflow="auto" height="100%" sx={{ backgroundImage: gradiant }}>
       {isMobile && (
         <Stack direction="row" justifyContent="flex-end" padding="0.5rem">
-          <IconButton onClick={onProfileClick} sx={{ color: candypink }} aria-label="profile" 
+          <IconButton onClick={onProfileClick} sx={{ color: gradiant }} aria-label="profile" 
         
           >
             <AccountCircleIcon />

@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import {blue, candypink} from "../../constants/color";
+import {blue, candypink, gradiant} from "../../constants/color";
 import { memo } from "react";
 import moment from "moment";
 import { fileFormat } from "../../lib/features";
@@ -36,7 +36,7 @@ const MessageComponent = ({message, user}) => {
     }}
     >
         {!sameSender && 
-        <Typography color={candypink} fontWeight={"600"} variant={"caption"}>
+        <Typography color={gradiant} fontWeight={"600"} variant={"caption"}>
             {sender.namee}</Typography>}
         {content && <Typography>{content}</Typography>}
 
