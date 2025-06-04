@@ -241,7 +241,7 @@ const NewGroup = () => {
   
   const [newGroup, newGroupLoding] = useAsyncMutation(useNewGroupMutation);
 
-  console.log("Using chatId for friends fetch:", chatId);
+
 
   useErrors([{ isError, error }]);
 
