@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async"
 
 const Title = (
     {
-        title = "chaitchat",
+        title = "chitchat",
         description = "this is a chit chat application called chatarpatar",
     }
 ) => {
